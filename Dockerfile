@@ -1,3 +1,6 @@
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine
 WORKDIR /app
-RUN VERSION=$(git describe --tags) && sed -i "s/[VERSION]/$VERSION/" .env
+RUN apk add git
+COPY . .
+RUN VERSION=$(scripts/get-version.sh) && sed -i "s/\[VERSION\]/$VERSION/" .env
+CMD [ "sh" ]
